@@ -3,6 +3,11 @@ if [ -z "$S3_BUCKET" ]; then
   exit 1
 fi
 
+if [ -z "$S3_ENDPOINT" ]; then
+  echo "You need to set the S3_ENDPOINT environment variable."
+  exit 1
+fi
+
 if [ -z "$POSTGRES_DATABASE" ]; then
   echo "You need to set the POSTGRES_DATABASE environment variable."
   exit 1
