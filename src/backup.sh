@@ -12,8 +12,10 @@ pg_dumpall -h $POSTGRES_HOST \
         $PGDUMP_EXTRA_OPTS \
         > db.dump
 
-timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
-s3_uri_base="s3://${S3_BUCKET}/${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
+timestamp=$(date +"%Y-%m-%dT%H-%M-%S")
+s3_uri_base="s3://${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
+
+echo $PWD
 
 if [ -n "$PASSPHRASE" ]; then
   echo "Encrypting backup..."
@@ -28,7 +30,8 @@ else
 fi
 
 echo "Uploading backup to $S3_BUCKET..."
-aws s3 cp "$local_file" "$s3_uri" $aws_args
+echo aws s3 cp "$PWD/$local_file" "$s3_uri" $aws_args
+aws s3 cp "$PWD/$local_file" "$s3_uri" $aws_args
 rm "$local_file"
 
 echo "Backup complete."
