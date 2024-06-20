@@ -28,8 +28,7 @@ else
 fi
 
 echo "Uploading backup to $S3_BUCKET..."
-echo "run aws $aws_args s3 cp \"$local_file\" \"$s3_uri\""
-aws $aws_args s3 cp "$local_file" "$s3_uri" --debug
+aws s3 cp "$local_file" "$s3_uri" $aws_args
 rm "$local_file"
 
 echo "Backup complete."
@@ -45,6 +44,6 @@ if [ -n "$BACKUP_KEEP_DAYS" ]; then
     --prefix "${S3_PREFIX}" \
     --query "${backups_query}" \
     --output text \
-    | xargs -n1 -t -I 'KEY' aws $aws_args s3 rm s3://"${S3_BUCKET}"/'KEY'
+    | xargs -n1 -t -I 'KEY' aws s3 rm s3://"${S3_BUCKET}"/'KEY' $aws_args
   echo "Removal complete."
 fi
