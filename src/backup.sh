@@ -13,7 +13,7 @@ pg_dumpall -h $POSTGRES_HOST \
         > db.dump
 
 timestamp=$(date +"%Y-%m-%dT%H-%M-%S")
-s3_uri_base="s3://${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
+s3_uri_base="s3://${S3_BUCKET}/${S3_PREFIX}/${POSTGRES_DATABASE}_${timestamp}.dump"
 
 echo $PWD
 
@@ -47,7 +47,6 @@ if [ -n "$BACKUP_KEEP_DAYS" ]; then
     --prefix "${S3_PREFIX}" \
     --query "${backups_query}" \
     --output text \
-    --debug \
-    | xargs -n1 -t -I 'KEY' aws s3 rm s3://'KEY' $aws_args --debug
+    | xargs -n1 -t -I 'KEY' aws $aws_args s3 rm s3://"${S3_BUCKET}"/'KEY'
   echo "Removal complete."
 fi
