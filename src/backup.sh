@@ -47,6 +47,7 @@ if [ -n "$BACKUP_KEEP_DAYS" ]; then
     --prefix "${S3_PREFIX}" \
     --query "${backups_query}" \
     --output text \
-    | xargs -n1 -t -I 'KEY' aws s3 rm s3://'KEY' $aws_args
+    --debug \
+    | xargs -n1 -t -I 'KEY' aws s3 rm s3://'KEY' $aws_args --debug
   echo "Removal complete."
 fi
