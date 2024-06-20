@@ -28,6 +28,7 @@ else
 fi
 
 echo "Uploading backup to $S3_BUCKET..."
+echo "run aws $aws_args s3 cp \"$local_file\" \"$s3_uri\""
 aws $aws_args s3 cp "$local_file" "$s3_uri"
 rm "$local_file"
 
