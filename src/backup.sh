@@ -40,6 +40,7 @@ if [ -n "$BACKUP_KEEP_DAYS" ]; then
 
   echo "Removing old backups from $S3_BUCKET..."
   aws $aws_args s3api list-objects \
+    --endpoint-url "${S3_ENDPOINT}"
     --bucket "${S3_BUCKET}" \
     --prefix "${S3_PREFIX}" \
     --query "${backups_query}" \
