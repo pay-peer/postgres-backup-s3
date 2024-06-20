@@ -6,8 +6,7 @@ set -o pipefail
 source ./env.sh
 
 echo "Creating backup of $POSTGRES_DATABASE database..."
-pg_dumpall --format=custom \
-        -h $POSTGRES_HOST \
+pg_dumpall -h $POSTGRES_HOST \
         -p $POSTGRES_PORT \
         -U $POSTGRES_USER \
         $PGDUMP_EXTRA_OPTS \
