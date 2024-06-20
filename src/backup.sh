@@ -43,9 +43,10 @@ if [ -n "$BACKUP_KEEP_DAYS" ]; then
 
   echo "Removing old backups from $S3_BUCKET..."
   aws $aws_args s3api list-objects \
+    --bucket "${S3_BUCKET}" \
     --prefix "${S3_PREFIX}" \
     --query "${backups_query}" \
     --output text \
-    | xargs -n1 -t -I 'KEY' aws s3 rm s3://'KEY' $aws_args
+    | xargs -n1 -t -I 'KEY' aws s3 rm s3://"${S3_BUCKET}"/'KEY' $aws_args
   echo "Removal complete."
 fi
